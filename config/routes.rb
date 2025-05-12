@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
-  resources :users
-  resources :lists
+  get '/lists', to: 'lists#index'
+  get '/users/:id/lists'. to 'list#show'
+  get 
 end
