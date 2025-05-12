@@ -24,6 +24,12 @@ class ListsController < ApplicationController
         redirect_to list
     end
 
+    def destroy
+        list = List.find(params[:id])
+        list.destroy
+        render json: @list, status: :ok
+    end
+
     private 
     def list_params
         params.expect(list: [:id, :title, :content])

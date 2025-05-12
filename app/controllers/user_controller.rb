@@ -24,6 +24,12 @@ class UserController < ApplicationController
         redirect_to user
     end
 
+    def destroy
+        user = User.find(params[:id])
+        user.destroy
+        render json: @user, status: :ok
+    end
+
     private 
     def user_params
         params.expect(user: [:id, :username, :password])
