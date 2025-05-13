@@ -1,27 +1,31 @@
 class ListsController < ApplicationController
     def index 
         @lists = List.all
-        render json: @lists, status: :ok
+        render json: ListBLueprint.render(lists)
     end
 
     def show
         @list = List.find(params[:id])
-        render json: @list, status: :ok
+        render json: ListBLueprint.render(list)
     end
 
     def create
         @list = List.new(list_params)
         if @list.save
-            render json: @list, status: :created
+            render json: ListBLueprint.render(list), status: :created
         else 
-            render json: @list.errors, status: :unprocessable_entity
+            render json: { errors: list.errors.full_messages }: :unprocessable_entity
         end
     end
 
     def update
         list = List.find(params[:id])
-        list.update!(list_params)
-        redirect_to list
+        if list.update!(list_params)
+            render ListBLueprint.render(list)
+            redirect_to list
+        else 
+            redner json: { errors: list.errors.full_messages }: :unprocessable_entity
+        end
     end
 
     def destroy
@@ -32,6 +36,6 @@ class ListsController < ApplicationController
 
     private 
     def list_params
-        params.expect(list: [:id, :title, :content])
+        params.expect(list: [:title, :content])
     end
 end
