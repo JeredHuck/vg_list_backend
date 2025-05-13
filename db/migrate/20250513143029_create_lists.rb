@@ -1,9 +1,9 @@
 class CreateLists < ActiveRecord::Migration[7.1]
   def change
     create_table :lists do |t|
-      t.integer :list_id
-      t.string :list_title
-      t.text :list_content
+      t.string :title
+      t.text :content
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end
