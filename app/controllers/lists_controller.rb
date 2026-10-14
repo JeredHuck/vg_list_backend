@@ -1,6 +1,6 @@
 class ListsController < ApplicationController
   def index
-    @lists = List.all
+    @lists = List.where(user_id: params[:user_id])
     render json: ListBlueprint.render(@lists)
   end
 
